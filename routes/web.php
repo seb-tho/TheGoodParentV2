@@ -1,7 +1,6 @@
 <?php
 
 use App\Models\Child;
-use App\Models\Event;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,9 +22,14 @@ Route::get('/', function () {
     ]);
 });
 
-Route::get('/child/{child}', function (Child $child) {
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/child/{child}', function (Child $child) {
     return view('child', [
         'child' => Child::with('characterTraits')->where('id', '=', $child->id)->get()[0]
     ]);
-});
+};
+
+require __DIR__ . '/auth.php';
