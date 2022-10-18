@@ -12,9 +12,9 @@ class Advice extends Model
 {
     use HasFactory;
 
-    public function event(): HasOne
+    public function events(): belongsToMany
     {
-        return $this->hasOne(Event::class);
+        return $this->belongsToMany(Event::class);
     }
 
     public function reviews(): HasMany

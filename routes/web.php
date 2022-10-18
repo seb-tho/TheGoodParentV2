@@ -19,17 +19,22 @@ Route::get('/login', function () {
     return view('auth.login');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/', [ChildController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
 
+Route::get('child/add-child', function () {
+    return view('child.add-child');
+});
 
 Route::get('/child/{child}', function (Child $child) {
-    return view('child', [
+    return view('child/child-detail', [
         'child' => Child::with('characterTraits')->where('id', '=', $child->id)->get()[0]
     ]);
 });
+
+Route::post('child/{child}', [ChildController::class, 'store']);
 
 require __DIR__ . '/auth.php';

@@ -20,8 +20,7 @@ class AdviceFactory extends Factory
         return [
             'title' => fake()->sentence(),
             'excerpt' => fake()->paragraph(),
-            'content' => fake()->paragraph(),
-            'event_id' => Event::factory()
+            'content' => fake()->paragraph()
         ];
     }
 }

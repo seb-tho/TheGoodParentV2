@@ -19,4 +19,9 @@ class Event extends Model
     {
         return $this->belongsToMany(Advice::class);
     }
+
+    public function children(): BelongsToMany
+    {
+        return $this->belongsToMany(Child::class);
+    }
 }

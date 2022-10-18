@@ -13,12 +13,20 @@
                         </h1>
                     </div>
                     <div class="space-x-2">
-                        <ul>
+                        <table class="px-3 py-1 text-blue-300 text-xs uppercase font-semibold"
+                               style="font-size: 10px">
+                            <tr>
+                                <th>Character Trait</th>
+                                <th>Degree</th>
+                            </tr>
                             @foreach($child->characterTraits as $ct)
-                                <li class="px-3 py-1 text-blue-300 text-xs uppercase font-semibold"
-                                    style="font-size: 10px"> {{ $ct->name }} {{$ct->pivot->traitLevel}}</li>
+                            <tr>
+                                <td>{{ $ct->name }}</td>
+                                <td>{{$ct->pivot->traitLevel}}</td>
+                            </tr>
                             @endforeach
-                        </ul>
+                        </table>
+
                     </div>
                 </header>
             </div>

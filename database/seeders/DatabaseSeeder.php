@@ -28,15 +28,17 @@ class DatabaseSeeder extends Seeder
         $numberOfCharTraits = 5;
         $numberOfChildren = 7;
         $numberOfReviews = 10;
+        $numberOfEvents = 10;
 
         $users = User::factory()->count($numberOfUsers)->create();
         $advices = Advice::factory()->count($numberOfAdvices)->create();
         $reviews = Review::factory()->count($numberOfReviews)->create();
         $children = Child::factory()->count($numberOfChildren)->create();
         $charTraits = CharacterTrait::factory($numberOfCharTraits)->create();
+        $events = Event::factory($numberOfEvents)->create();
 
         //Pivot CharacterTrait_Event
-        $events = Event::all();
+//        $events = Event::all();
         $this->attachCharTraitsToModels($events, $charTraits);
         $charTraitEvents = CharacterTraitEvent::all();
         $this->setTraitLevelOnPivotModel($charTraitEvents);
@@ -45,6 +47,14 @@ class DatabaseSeeder extends Seeder
         $this->attachCharTraitsToModels($children, $charTraits);
         $charTraitChildren = CharacterTraitChild::all();
         $this->setTraitLevelOnPivotModel($charTraitChildren);
+
+        //Pivot Child_Event
+//        $events = Event::all();
+        $this->attachEventsToModels($events, $children);
+
+        //Pivot Advice_Event
+//        $events = Event::all();
+        $this->attachEventsToModels($events, $advices);
 
         //Pivot Child_User
         foreach ($children as $child) {
@@ -58,9 +68,8 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-
         //Attach users to reviews
-        $reviews = Review::all();
+//        $reviews = Review::all();
         foreach ($reviews as $review) {
             $review->user_id = rand(1, count($users));
             $review->save();
@@ -73,11 +82,12 @@ class DatabaseSeeder extends Seeder
      * @param $charTraits
      * @return void
      */
-    public function attachCharTraitsToModels(mixed $models, $charTraits): void
+    private function attachCharTraitsToModels(mixed $models, mixed $charTraits): void
     {
+        $index = count($charTraits) - 1;
         foreach ($models as $model) {
-            for ($i = rand(0, 4); $i > 0; $i--) {
-                $model->characterTraits()->attach($charTraits[rand(0, count($charTraits) - 1)]);
+            for ($i = rand(0, $index); $i > 0; $i--) {
+                $model->characterTraits()->attach($charTraits[rand(0, $index)]);
             }
         }
     }
@@ -86,11 +96,22 @@ class DatabaseSeeder extends Seeder
      * @param Collection $pivotModels
      * @return void
      */
-    public function setTraitLevelOnPivotModel(Collection $pivotModels): void
+    private function setTraitLevelOnPivotModel(Collection $pivotModels): void
     {
         foreach ($pivotModels as $x) {
             $x->traitLevel = rand(0, 2);
             $x->save();
+        }
+    }
+
+    private function attachEventsToModels(mixed $events, mixed $models)
+    {
+        $index = count($events) - 1;
+
+        foreach ($models as $model) {
+            for ($i = rand(0, $index); $i > 0; $i--) {
+                $model->events()->attach($events[rand(0, $index)]);
+            }
         }
     }
 }

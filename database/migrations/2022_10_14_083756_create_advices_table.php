@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('title')->nullable(false);
             $table->string('excerpt')->nullable(false);
             $table->string('content')->nullable(false);
-            $table->foreignId('event_id')->constrained('events');
             $table->timestamps();
         });
     }

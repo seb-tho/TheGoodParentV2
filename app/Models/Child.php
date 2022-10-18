@@ -19,4 +19,9 @@ class Child extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function events(): belongsToMany
+    {
+        return $this->belongsToMany(Event::class);
+    }
 }
