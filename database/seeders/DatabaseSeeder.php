@@ -8,8 +8,8 @@ use App\Models\CharacterTrait;
 use App\Models\CharacterTraitChild;
 use App\Models\CharacterTraitEvent;
 use App\Models\Child;
-use App\Models\Review;
 use App\Models\Event;
+use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Collection;
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $numberOfUsers = 3;
         $numberOfAdvices = 10;
         $numberOfCharTraits = 5;
-        $numberOfChildren = 6;
+        $numberOfChildren = 7;
         $numberOfReviews = 10;
 
         $users = User::factory()->count($numberOfUsers)->create();
@@ -47,15 +47,17 @@ class DatabaseSeeder extends Seeder
         $this->setTraitLevelOnPivotModel($charTraitChildren);
 
         //Pivot Child_User
-        foreach ($users as $user) {
+        foreach ($children as $child) {
+            $userId = 0;
             for ($i = rand(1, 2); $i > 0; $i--) {
-                if (count($children) > 0) {
-                    $child = $children[count($children)-1];
+                $user = $users[rand(0, count($users) - 1)];
+                if ($userId != $user->id) {
                     $user->children()->attach($child);
-                    $children->forget($child->id);
+                    $userId = $user->id;
                 }
             }
         }
+
 
         //Attach users to reviews
         $reviews = Review::all();

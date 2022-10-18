@@ -10,8 +10,6 @@ class Event extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-
     public function characterTraits(): BelongsToMany
     {
         return $this->belongsToMany(CharacterTrait::class)->withPivot('traitLevel');

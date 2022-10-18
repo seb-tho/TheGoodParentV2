@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChildController;
 use App\Models\Child;
 use Illuminate\Support\Facades\Route;
 
@@ -14,22 +15,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-//    $child = Child::with('characterTraits')->get()[0];
-//    dd($child);
-    return view('children', [
-        'children' => Child::with('characterTraits')->get()
-    ]);
+Route::get('/login', function () {
+    return view('auth.login');
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/', [ChildController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
+
+
 Route::get('/child/{child}', function (Child $child) {
     return view('child', [
         'child' => Child::with('characterTraits')->where('id', '=', $child->id)->get()[0]
     ]);
-};
+});
 
 require __DIR__ . '/auth.php';
