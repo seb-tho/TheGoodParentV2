@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Child;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class ChildController extends Controller
 {
@@ -20,15 +21,14 @@ class ChildController extends Controller
        return view('child.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
+    public function store()
     {
-        //
+        Child::create(array_merge($this->validateChild(), [
+            'user_id' => request()->user()->id
+        ]));
+
+        return redirect('/children');
+
     }
 
 
@@ -50,6 +50,19 @@ class ChildController extends Controller
 
     public function destroy($id)
     {
+        $child = Child::find($id);
+        $child->delete();
+        return back()->with('success', 'Child Deleted!');
+    }
 
+    protected function validateChild(?Child $child = null): array
+    {
+        $child ??= new Child();
+
+        return request()->validate([
+            'name' => 'required',
+            'dateOfBirth' => 'required',
+            'character_trait_id' => ['required', Rule::exists('character_traits', 'id')]
+        ]);
     }
 }

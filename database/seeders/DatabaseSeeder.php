@@ -23,6 +23,14 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        User::create([
+            'name'=> 'admin',
+            'email'=> 'sebastien.thome@telenet.be',
+            'email_verified_at' => date("Y-m-d H:i:s"),
+            'password' => bcrypt('admin'),
+            'is_admin' => true
+        ]);
+
         $numberOfUsers = 3;
         $numberOfAdvices = 10;
         $numberOfCharTraits = 5;

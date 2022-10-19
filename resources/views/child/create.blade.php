@@ -1,39 +1,26 @@
-@auth
-    <x-panel>
-        <form method="POST" action="child/{child}">
-            @csrf
+<x-layout>
+    <h1>Add your child</h1>
+    <form method="POST" action="/{{ route('children.create') }}" enctype="multipart/form-data">
+        @csrf
 
-            <header class="flex items-center">
-                <img src="https://i.pravatar.cc/60?u={{ auth()->id() }}"
-                     alt=""
-                     width="40"
-                     height="40"
-                     class="rounded-full">
+        <x-form.input name="name" required/>
+        <x-form.input type="date" name="dateOfBirth" required/>
 
-                <h2 class="ml-4">Add your child</h2>
-            </header>
+        <x-form.field>
+            <x-form.label name="characterTraits"/>
 
-            <div class="mt-6">
-                <textarea
-                    name="body"
-                    class="w-full text-sm focus:outline-none focus:ring"
-                    rows="5"
-                    placeholder="Quick, thing of something to say!"
-                    required></textarea>
+            <select name="character_trait_id" id="character_trait_id" required>
+                @foreach (\App\Models\CharacterTrait::all() as $ct)
+                    <option
+                        value="{{ $ct->id }}"
+                        {{ old('character_trait_id') == $ct->id ? 'selected' : '' }}
+                    >{{ ucwords($ct->name) }}</option>
+                @endforeach
+            </select>
 
-                @error('body')
-                <span class="text-xs text-red-500">{{ $message }}</span>
-                @enderror
-            </div>
+            <x-form.error name="characterTrait"/>
+        </x-form.field>
 
-            <div class="flex justify-end mt-6 pt-6 border-t border-gray-200">
-                <x-form.button>Submit</x-form.button>
-            </div>
-        </form>
-    </x-panel>
-@else
-    <p class="font-semibold">
-        <a href="/register" class="hover:underline">Register</a> or
-        <a href="/login" class="hover:underline">log in</a> to leave a comment.
-    </p>
-@endauth
+        <x-form.button>Add Child</x-form.button>
+    </form>
+</x-layout>
