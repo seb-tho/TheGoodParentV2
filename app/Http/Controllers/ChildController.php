@@ -17,7 +17,7 @@ class ChildController extends Controller
 
     public function create()
     {
-
+       return view('child.create');
     }
 
     /**
@@ -36,7 +36,6 @@ class ChildController extends Controller
     {
         $child = Child::with('characterTraits')->find($id);
         return view('child.show', ['child' => $child]);
-
     }
 
     public function edit($id)

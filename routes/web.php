@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminAdviceController;
 use App\Http\Controllers\AdminLifeEventController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\ChildController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,6 +17,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/', function () {
+    return Redirect::route('children.index');
+});
+
 //Auth
 Route::get('/login', function () {
     return view('auth.login');
@@ -25,7 +30,7 @@ Route::get('/login', function () {
 Route::resource('advice', 'App\Http\Controllers\AdviceController')->middleware(['auth', 'verified'])->except('create', 'edit', 'update', 'destroy');
 
 //Children
-Route::resource('children', 'App\Http\Controllers\ChildController')->middleware(['auth', 'verified']);
+Route::resource('children', ChildController::class)->middleware(['auth', 'verified']);
 
 //Life events
 Route::resource('life-events', 'App\Http\Controllers\LifeEventController')->middleware(['auth', 'verified'])->except('create', 'edit', 'update', 'destroy');
