@@ -1,7 +1,8 @@
 <?php
 
-use App\Http\Controllers\ChildController;
-use App\Models\Child;
+use App\Http\Controllers\AdminAdviceController;
+use App\Http\Controllers\AdminLifeEventController;
+use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,26 +16,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Auth
 Route::get('/login', function () {
     return view('auth.login');
 });
 
-//Route::get('/dashboard', function () {
-//    return view('dashboard');
-//})->middleware(['auth', 'verified'])->name('dashboard');
+//Advice
+Route::resource('advice', 'App\Http\Controllers\AdviceController')->middleware(['auth', 'verified'])->except('create', 'edit', 'update', 'destroy');
 
-Route::get('/', [ChildController::class, 'index'])->middleware(['auth', 'verified'])->name('home');
+//Children
+Route::resource('children', 'App\Http\Controllers\ChildController')->middleware(['auth', 'verified']);
 
-Route::get('child/add-child', function () {
-    return view('child.add-child');
+//Life events
+Route::resource('life-events', 'App\Http\Controllers\LifeEventController')->middleware(['auth', 'verified'])->except('create', 'edit', 'update', 'destroy');
+
+//Reviews
+Route::resource('reviews', 'App\Http\Controllers\ReviewController')->middleware(['auth', 'verified'])->except('index', 'edit', 'update', 'destroy');
+
+
+// Admin
+Route::middleware('can:admin')->group(function () {
+    Route::resource('admin/life-events', AdminLifeEventController::class)->except('index', 'show');
+    Route::resource('admin/advice', AdminAdviceController::class)->except('index', 'show');
+    Route::resource('admin/user', AdminUserController::class);
 });
 
-Route::get('/child/{child}', function (Child $child) {
-    return view('child/child-detail', [
-        'child' => Child::with('characterTraits')->where('id', '=', $child->id)->get()[0]
-    ]);
-});
-
-Route::post('child/{child}', [ChildController::class, 'store']);
 
 require __DIR__ . '/auth.php';

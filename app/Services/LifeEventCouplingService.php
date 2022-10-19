@@ -9,6 +9,8 @@ use Illuminate\Support\Collection;
 
 class LifeEventCouplingService
 {
+//    TODO: debug this logic
+
     private Collection $events;
 
     public function __construct(Collection $events)
