@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('child_event', function (Blueprint $table) {
+        Schema::create('child_life_event', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
             $table->foreignId('child_id')->constrained('children');
-            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('life_event_id')->constrained('life_events');
         });
     }
 
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('child_event');
+        Schema::dropIfExists('child_life_event');
     }
 };

@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Advice;
-use App\Models\Event;
+use App\Models\LifeEvent;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

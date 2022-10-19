@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('character_trait_event', function (Blueprint $table) {
+        Schema::create('character_trait_life_event', function (Blueprint $table) {
             $table->id();
             $table->foreignId('character_trait_id')->constrained('character_traits');
-            $table->foreignId('event_id')->constrained('events');
+            $table->foreignId('life_event_id')->constrained('life_events');
             $table->smallInteger('traitLevel')->nullable();
             $table->timestamps();
         });
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('character_trait_event');
+        Schema::dropIfExists('character_trait_life_event');
     }
 };

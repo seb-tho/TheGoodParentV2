@@ -20,8 +20,8 @@ class Child extends Model
         return $this->belongsToMany(User::class);
     }
 
-    public function events(): belongsToMany
+    public function lifeEvents(): belongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(LifeEvent::class);
     }
 }

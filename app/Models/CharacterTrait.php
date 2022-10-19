@@ -10,9 +10,9 @@ class CharacterTrait extends Model
 {
     use HasFactory;
 
-    public function events(): BelongsToMany
+    public function lifeEvents(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class)->withPivot('traitLevel');
+        return $this->belongsToMany(LifeEvent::class)->withPivot('traitLevel');
     }
 
     public function children(): BelongsToMany

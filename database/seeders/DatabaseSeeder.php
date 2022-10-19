@@ -6,9 +6,9 @@ namespace Database\Seeders;
 use App\Models\Advice;
 use App\Models\CharacterTrait;
 use App\Models\CharacterTraitChild;
-use App\Models\CharacterTraitEvent;
+use App\Models\CharacterTraitLifeEvent;
 use App\Models\Child;
-use App\Models\Event;
+use App\Models\LifeEvent;
 use App\Models\Review;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -28,20 +28,20 @@ class DatabaseSeeder extends Seeder
         $numberOfCharTraits = 5;
         $numberOfChildren = 7;
         $numberOfReviews = 10;
-        $numberOfEvents = 10;
+        $numberOfLifeEvents = 10;
 
         $users = User::factory()->count($numberOfUsers)->create();
         $advices = Advice::factory()->count($numberOfAdvices)->create();
         $reviews = Review::factory()->count($numberOfReviews)->create();
         $children = Child::factory()->count($numberOfChildren)->create();
         $charTraits = CharacterTrait::factory($numberOfCharTraits)->create();
-        $events = Event::factory($numberOfEvents)->create();
+        $lifeEvents = LifeEvent::factory($numberOfLifeEvents)->create();
 
         //Pivot CharacterTrait_Event
-//        $events = Event::all();
-        $this->attachCharTraitsToModels($events, $charTraits);
-        $charTraitEvents = CharacterTraitEvent::all();
-        $this->setTraitLevelOnPivotModel($charTraitEvents);
+//        $events = LifeEvent::all();
+        $this->attachCharTraitsToModels($lifeEvents, $charTraits);
+        $charTraitLifeEvents = CharacterTraitLifeEvent::all();
+        $this->setTraitLevelOnPivotModel($charTraitLifeEvents);
 
         //Pivot CharacterTrait_Child
         $this->attachCharTraitsToModels($children, $charTraits);
@@ -49,12 +49,12 @@ class DatabaseSeeder extends Seeder
         $this->setTraitLevelOnPivotModel($charTraitChildren);
 
         //Pivot Child_Event
-//        $events = Event::all();
-        $this->attachEventsToModels($events, $children);
+//        $events = LifeEvent::all();
+        $this->attachLifeEventsToModels($lifeEvents, $children);
 
         //Pivot Advice_Event
-//        $events = Event::all();
-        $this->attachEventsToModels($events, $advices);
+//        $events = LifeEvent::all();
+        $this->attachLifeEventsToModels($lifeEvents, $advices);
 
         //Pivot Child_User
         foreach ($children as $child) {
@@ -104,13 +104,13 @@ class DatabaseSeeder extends Seeder
         }
     }
 
-    private function attachEventsToModels(mixed $events, mixed $models)
+    private function attachLifeEventsToModels(mixed $lifeEvents, mixed $models)
     {
-        $index = count($events) - 1;
+        $index = count($lifeEvents) - 1;
 
         foreach ($models as $model) {
             for ($i = rand(0, $index); $i > 0; $i--) {
-                $model->events()->attach($events[rand(0, $index)]);
+                $model->lifeEvents()->attach($lifeEvents[rand(0, $index)]);
             }
         }
     }
