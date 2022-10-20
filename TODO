@@ -1,0 +1,7 @@
+* implement views
+* localization
+* e-mail confirmation (Breeze) + delete user if not confirmed in 48h
+
+
+questions:
+* decouple dal from controllers with service layer + dto's?

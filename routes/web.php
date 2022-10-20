@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminAdviceController;
 use App\Http\Controllers\AdminLifeEventController;
 use App\Http\Controllers\AdminUserController;
+use App\Http\Controllers\CharacterTraitController;
 use App\Http\Controllers\ChildController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,9 @@ Route::get('/login', function () {
 
 //Advice
 Route::resource('advice', 'App\Http\Controllers\AdviceController')->middleware(['auth', 'verified'])->except('create', 'edit', 'update', 'destroy');
+
+//Character Traits
+Route::resource('character-traits', CharacterTraitController::class)->middleware(['auth', 'verified']);
 
 //Children
 Route::resource('children', ChildController::class)->middleware(['auth', 'verified']);
